@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COUNTDOWN STUDIO - In-Browser Countdown Video Creator</title>
+    <meta name="description" content="Professional browser-based countdown video creator. Generate accurate countdown timer videos with 10+ premium styles, chroma key green screen, custom durations, and multi-format download." />
+    <meta property="og:title" content="COUNTDOWN STUDIO - In-Browser Countdown Video Creator" />
+    <meta property="og:description" content="Create accurate countdown timer videos with luxury gold, neon, digital LED, chroma green backgrounds, and instant download." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#090b10" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+
+    <!-- Google Web Fonts for Premium Templates -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+    <!-- Master Stylesheet -->
+    <link rel="stylesheet" href="./css/style.css" />
+
+  </head>
+  <body>
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="brand-zone">
+        <div class="brand-icon">⏱</div>
+        <span class="brand-name">COUNTDOWN STUDIO</span>
+        <span class="brand-badge">BROWSER VIDEO STUDIO</span>
+      </div>
+
+      <div class="header-actions">
+        <button id="btnSinhalaGuide" class="btn-header-secondary" title="සිංහල උපදෙස් මාලාව">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          සිංහල උපදෙස් (Sinhala Guide)
+        </button>
+        <button id="btnDownloadZip" class="btn-header-secondary btn-zip-download" title="Download Complete Source Code as ZIP">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Source Code (.ZIP)
+        </button>
+        <button id="btnRandomTemplate" class="btn-header-secondary" title="Try Random Template">
+          🎲 Random Style
+        </button>
+        <button id="btnResetAll" class="btn-header-secondary" title="Reset all settings to default">
+          ↺ Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <section class="studio-hero" aria-label="Countdown Studio introduction">
+      <div class="studio-hero-copy">
+        <div class="studio-eyebrow"><span class="status-light"></span> CREATIVE WORKSPACE <span class="eyebrow-divider">/</span> 100% IN-BROWSER</div>
+        <h1>Make every second <span>count.</span></h1>
+        <p>Design cinematic countdowns, fine-tune the look and sound, then render a video ready for your next edit.</p>
+      </div>
+      <div class="studio-hero-highlights" aria-label="Studio features">
+        <div class="hero-feature"><strong>10</strong><span>visual styles</span></div>
+        <div class="hero-feature"><strong>4</strong><span>video formats</span></div>
+        <div class="hero-feature"><strong>0</strong><span>server uploads</span></div>
+      </div>
+    </section>
+
+    <main class="app-container">
+      <!-- Left Column: Live Preview & Video Generation -->
+      <section class="stage-column">
+        <!-- Live Preview Card -->
+        <div class="preview-card">
+          <div class="preview-header">
+            <span class="section-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Live Video Preview
+            </span>
+            <span id="previewStatusBadge" class="preview-status">CANVAS 2D • LIVE PREVIEW</span>
+          </div>
+
+          <!-- Responsive Canvas Viewport -->
+          <div id="canvasWrapper" class="canvas-wrapper">
+            <canvas id="previewCanvas" width="1920" height="1080" aria-label="Live countdown video preview"></canvas>
+          </div>
+
+          <!-- Playback & Scrub Bar -->
+          <div class="preview-controls-bar">
+            <button id="btnPlayPause" class="btn-ctrl primary" title="Play / Pause Preview">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            </button>
+            <button id="btnRestartPreview" class="btn-ctrl" title="Restart to 00:00">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            </button>
+
+            <div class="timeline-scrubber">
+              <input type="range" id="scrubSlider" class="scrub-slider" min="0" max="100" step="0.1" value="0">
+              <span id="previewTimeLabel" class="timeline-time">03:00 / 03:00</span>
+            </div>
+          </div>
+
+          <!-- Quick Background Presets Strip -->
+          <div class="quick-bg-strip">
+            <span class="quick-bg-label">Background:</span>
+            <button class="bg-swatch-btn chroma-highlight active" data-color="#00ff00" title="Pure Chroma Key Green for Premiere/DaVinci/CapCut" type="button">
+              <span class="color-dot" style="background: #00ff00;"></span> Chroma Green (#00FF00)
+            </button>
+            <button class="bg-swatch-btn" data-color="#0000ff" title="Blue Screen" type="button">
+              <span class="color-dot" style="background: #0000ff;"></span> Blue Screen
+            </button>
+            <button class="bg-swatch-btn" data-color="#000000" title="Pure Black" type="button">
+              <span class="color-dot" style="background: #000000;"></span> Black
+            </button>
+            <button class="bg-swatch-btn" data-color="#ffffff" title="Pure White" type="button">
+              <span class="color-dot" style="background: #ffffff;"></span> White
+            </button>
+            <button class="bg-swatch-btn" data-color="#0a0f1d" title="Studio Navy" type="button">
+              <span class="color-dot" style="background: #0a0f1d;"></span> Dark Navy
+            </button>
+          </div>
+        </div>
+
+        <!-- Video Generation Trigger Card -->
+        <div class="generate-action-card">
+          <div id="generateSpecsRow" class="generate-specs-row">
+            <!-- Populated via JavaScript -->
+          </div>
+
+          <button id="btnGenerateVideo" class="btn-generate-main">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            GENERATE COUNTDOWN VIDEO
+          </button>
+        </div>
+
+        <!-- Generation Progress Box -->
+        <div id="progressContainer" class="progress-container">
+          <div class="progress-header">
+            <span class="progress-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="animate-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              Rendering & Encoding Countdown Video...
+            </span>
+            <span id="progressPct" class="progress-pct">0%</span>
+          </div>
+
+          <div class="progress-track">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+
+          <div id="progressStats" class="progress-stats">
+            <span>Frame: 0 / 0</span>
+            <span>Elapsed: 0.0s</span>
+            <span>Remaining: calculating...</span>
+          </div>
+
+          <button id="btnCancelGen" class="btn-cancel-gen">Cancel Generation</button>
+        </div>
+
+        <!-- Error Alert Box -->
+        <div id="errorAlertBox" class="error-alert-box" style="display: none;">
+          <div class="error-alert-header">
+            <span style="display: flex; align-items: center; gap: 0.5rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <strong id="errorAlertTitle">Generation Notice</strong>
+            </span>
+            <button class="error-close-btn" onclick="document.getElementById('errorAlertBox').style.display='none';">&times;</button>
+          </div>
+          <p id="errorAlertMsg" class="error-alert-msg"></p>
+        </div>
+
+        <!-- Generated Video Result Card (Persistent Memory) -->
+        <div id="videoResultCard" class="video-result-card">
+          <div class="result-success-badge">
+            <span class="success-tag">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Video Generation Complete
+            </span>
+            <span id="resultFileMeta" class="file-meta-tag">WEBM • 2.4 MB • 1920x1080 • Audio Included</span>
+          </div>
+
+          <div id="videoPlayerBox" class="video-player-box">
+            <video id="completedVideoPlayer" controls playsinline preload="metadata"></video>
+          </div>
+
+          <!-- Filename Customizer -->
+          <div class="filename-input-group">
+            <label class="filename-label" for="filenameInput">Save Filename:</label>
+            <div class="filename-field-wrapper">
+              <input type="text" id="filenameInput" class="filename-input" value="Countdown_03-00_LUXURY_GOLD" spellcheck="false" />
+              <span id="filenameExt" class="filename-ext">.webm</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="result-buttons-row">
+            <a id="btnDownloadVideo" class="btn-download-video" role="button" href="#" download="Countdown_Video.webm">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              DOWNLOAD VIDEO
+            </a>
+            <button id="btnNewVideo" class="btn-new-video" type="button">
+              + Generate New
+            </button>
+          </div>
+
+          <p class="download-assurance-text">
+            💾 The generated video is kept safely in browser memory. You can click <strong>DOWNLOAD VIDEO</strong> multiple times to save the exact same video file without re-rendering!
+          </p>
+        </div>
+      </section>
+
+      <!-- Right Column: Settings & Customization Panels -->
+      <aside class="config-column">
+        <!-- 1. Countdown Time & Duration Settings -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              1. Countdown Time & Duration
+            </span>
+          </div>
+
+          <div class="time-input-container">
+            <div class="time-row">
+              <div class="time-field-box">
+                <label class="field-label" for="timeInput">Starting Countdown Time (MM:SS or HH:MM:SS)</label>
+                <input type="text" id="timeInput" class="time-text-input" value="03:00" placeholder="03:00" />
+              </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="time-presets-strip">
+              <button class="btn-time-chip" data-time="00:10" type="button">00:10</button>
+              <button class="btn-time-chip" data-time="00:30" type="button">00:30</button>
+              <button class="btn-time-chip" data-time="01:00" type="button">01:00</button>
+              <button class="btn-time-chip" data-time="03:00" type="button">03:00</button>
+              <button class="btn-time-chip" data-time="05:00" type="button">05:00</button>
+              <button class="btn-time-chip" data-time="10:00" type="button">10:00</button>
+              <button class="btn-time-chip" data-time="01:00:00" type="button">01:00:00</button>
+            </div>
+          </div>
+
+          <!-- Duration Mode Selector -->
+          <div class="mode-toggle-group">
+            <button id="modeRealtime" class="btn-mode">
+              <span>Real-Time (1:1)</span>
+              <span class="sub">Video length = Timer</span>
+            </button>
+            <button id="modeCompressed" class="btn-mode active">
+              <span>Compressed / Custom</span>
+              <span class="sub">Fast export video</span>
+            </button>
+          </div>
+
+          <!-- Custom Output Duration Input Box -->
+          <div id="customDurationBox" class="custom-duration-box">
+            <label class="field-label" for="outputDurationInput">Output Video Duration (Seconds):</label>
+            <div class="duration-input-row">
+              <input type="number" id="outputDurationInput" class="duration-number-input" min="1" max="600" value="10" />
+              <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-primary);">Seconds</span>
+            </div>
+            <p class="duration-hint">
+              💡 <strong>Compressed Mode:</strong> The entire countdown will smoothly count down from the starting time to 00:00 within this video length.
+            </p>
+          </div>
+        </div>
+
+        <!-- 2. Design Template Gallery (10 Distinct Templates) -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              2. Design Template Gallery
+            </span>
+          </div>
+
+          <div class="templates-grid">
+            <!-- 1. Luxury Gold -->
+            <div class="template-card active" data-template="gold">
+              <div class="tpl-preview-mini tpl-gold-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Luxury Gold</span>
+                <span class="tpl-tag">Metallic</span>
+              </div>
+            </div>
+
+            <!-- 2. Royal Blue -->
+            <div class="template-card" data-template="blue">
+              <div class="tpl-preview-mini tpl-blue-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Royal Blue</span>
+                <span class="tpl-tag">Electric</span>
+              </div>
+            </div>
+
+            <!-- 3. Neon Pink -->
+            <div class="template-card" data-template="pink">
+              <div class="tpl-preview-mini tpl-pink-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Neon Pink</span>
+                <span class="tpl-tag">Cyberpunk</span>
+              </div>
+            </div>
+
+            <!-- 4. Cinematic Red -->
+            <div class="template-card" data-template="red">
+              <div class="tpl-preview-mini tpl-red-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Cinematic Red</span>
+                <span class="tpl-tag">Anamorphic</span>
+              </div>
+            </div>
+
+            <!-- 5. Silver Chrome -->
+            <div class="template-card" data-template="chrome">
+              <div class="tpl-preview-mini tpl-chrome-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Silver Chrome</span>
+                <span class="tpl-tag">Brushed</span>
+              </div>
+            </div>
+
+            <!-- 6. Purple Glow -->
+            <div class="template-card" data-template="purple">
+              <div class="tpl-preview-mini tpl-purple-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Purple Glow</span>
+                <span class="tpl-tag">Cosmic</span>
+              </div>
+            </div>
+
+            <!-- 7. Emerald Green -->
+            <div class="template-card" data-template="green">
+              <div class="tpl-preview-mini tpl-green-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Emerald Green</span>
+                <span class="tpl-tag">Chamfered</span>
+              </div>
+            </div>
+
+            <!-- 8. Digital LED -->
+            <div class="template-card" data-template="led">
+              <div class="tpl-preview-mini tpl-led-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Digital LED</span>
+                <span class="tpl-tag">7-Segment</span>
+              </div>
+            </div>
+
+            <!-- 9. Minimal Clean -->
+            <div class="template-card" data-template="minimal">
+              <div class="tpl-preview-mini tpl-minimal-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Minimal Clean</span>
+                <span class="tpl-tag">Swiss</span>
+              </div>
+            </div>
+
+            <!-- 10. Glass Effect -->
+            <div class="template-card" data-template="glass">
+              <div class="tpl-preview-mini tpl-glass-mini">03:00</div>
+              <div class="tpl-info">
+                <span class="tpl-name">Glass Effect</span>
+                <span class="tpl-tag">Frosted</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Background Customization -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              3. Background Customization
+            </span>
+          </div>
+
+          <div class="control-row">
+            <span class="control-label">Canvas Background Color</span>
+            <div class="color-picker-group">
+              <input type="color" id="bgColorPicker" class="input-color" value="#00ff00" />
+              <span id="bgHexBadge" class="hex-badge">#00FF00</span>
+            </div>
+          </div>
+
+          <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+            ✨ <strong>Independent Background:</strong> The background color is 100% independent of your template styling. For example, selecting <em>Luxury Gold</em> with <em>Chroma Key Green (#00FF00)</em> produces gold numerals and frame on a pure green background ready for transparent overlay in video editors!
+          </p>
+        </div>
+
+        <!-- 4. Typography & Frame Fine-Tuning -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+              4. Typography & Frame Customization
+            </span>
+          </div>
+
+          <!-- Font Style -->
+          <div class="control-row">
+            <label class="control-label" for="fontFamilySelect">Font Family</label>
+            <select id="fontFamilySelect" class="select-input">
+              <option value="'Montserrat', sans-serif">Montserrat (Modern Bold)</option>
+              <option value="'Orbitron', sans-serif">Orbitron (Sci-Fi / Digital)</option>
+              <option value="'Cinzel', serif">Cinzel (Luxury Serif)</option>
+              <option value="'Anton', sans-serif">Anton (Cinematic Condensed)</option>
+              <option value="monospace">Monospace (Technical)</option>
+            </select>
+          </div>
+
+          <!-- Font Scale Slider -->
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="control-label">Scale & Size</span>
+              <span id="scaleVal" class="slider-val">100%</span>
+            </div>
+            <input type="range" id="scaleSlider" class="range-input" min="0.5" max="1.5" step="0.05" value="1.0" />
+          </div>
+
+          <!-- Frame Thickness -->
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="control-label">Frame Thickness</span>
+              <span id="frameThickVal" class="slider-val">8px</span>
+            </div>
+            <input type="range" id="frameThickSlider" class="range-input" min="0" max="24" step="1" value="8" />
+          </div>
+
+          <!-- Corner Radius -->
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="control-label">Corner Radius</span>
+              <span id="radiusVal" class="slider-val">24px</span>
+            </div>
+            <input type="range" id="radiusSlider" class="range-input" min="0" max="80" step="2" value="24" />
+          </div>
+
+          <!-- Glow Intensity -->
+          <div class="slider-group">
+            <div class="slider-label-row">
+              <span class="control-label">Glow & Shadow Intensity</span>
+              <span id="glowVal" class="slider-val">1.0x</span>
+            </div>
+            <input type="range" id="glowSlider" class="range-input" min="0.0" max="2.0" step="0.1" value="1.0" />
+          </div>
+
+          <!-- Position -->
+          <div class="control-row">
+            <label class="control-label" for="positionSelect">Display Position</label>
+            <select id="positionSelect" class="select-input">
+              <option value="center">Center (Full Screen)</option>
+              <option value="lower-third">Lower Third (Streaming / YouTube)</option>
+              <option value="top">Top Header</option>
+              <option value="bottom">Bottom Edge</option>
+            </select>
+          </div>
+
+          <!-- Color Overrides -->
+          <div class="control-row">
+            <span class="control-label">Custom Digits Color</span>
+            <div class="color-picker-group">
+              <input type="color" id="numColorPicker" class="input-color" value="#ffffff" />
+              <button id="numColorReset" class="btn-time-chip" title="Reset to Template Default">Default</button>
+            </div>
+          </div>
+          <div class="control-row">
+            <span class="control-label">Custom Frame Color</span>
+            <div class="color-picker-group">
+              <input type="color" id="frameColorPicker" class="input-color" value="#ffffff" />
+              <button id="frameColorReset" class="btn-time-chip" title="Reset to Template Default">Default</button>
+            </div>
+          </div>
+          <div class="control-row">
+            <span class="control-label">Custom Glow Color</span>
+            <div class="color-picker-group">
+              <input type="color" id="glowColorPicker" class="input-color" value="#ffffff" />
+              <button id="glowColorReset" class="btn-time-chip" title="Reset to Template Default">Default</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Sound Effects & Audio Settings -->
+        <div class="panel-card" id="soundCard">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              5. Sound Effects & Audio
+            </span>
+          </div>
+
+          <!-- Sound Enable Toggle -->
+          <div class="switch-row">
+            <div class="switch-label">
+              <span class="name">Countdown Sound Effects</span>
+              <span class="desc">Plays audio in preview and includes it in exported video</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="soundToggle" checked />
+              <span class="slider-round"></span>
+            </label>
+          </div>
+
+          <!-- Sound Effects Selector Grid -->
+          <div class="sound-options-grid" id="soundOptionsGrid">
+            <button class="btn-sound-option active" data-sound="tick" type="button">
+              <span class="title">Classic Clock Tick <span class="sound-badge">Popular</span></span>
+              <span class="desc">Crisp, clean analog clock tick on each second</span>
+            </button>
+            <button class="btn-sound-option" data-sound="beep" type="button">
+              <span class="title">Digital Beep</span>
+              <span class="desc">Modern electronic timer pulse</span>
+            </button>
+            <button class="btn-sound-option" data-sound="click" type="button">
+              <span class="title">Soft Click</span>
+              <span class="desc">Subtle, gentle clicking sound</span>
+            </button>
+            <button class="btn-sound-option" data-sound="pulse" type="button">
+              <span class="title">Cinematic Pulse</span>
+              <span class="desc">Deep cinematic sub-bass heartbeat</span>
+            </button>
+            <button class="btn-sound-option" data-sound="final_beep" type="button">
+              <span class="title">Final Countdown Beep</span>
+              <span class="desc">Alert beeps on 3-2-1 and celebratory 00:00 chime</span>
+            </button>
+            <button class="btn-sound-option" data-sound="silent" type="button">
+              <span class="title">Silent</span>
+              <span class="desc">No sound in preview or exported video</span>
+            </button>
+          </div>
+
+          <!-- Volume Slider -->
+          <div class="slider-group" id="soundVolumeGroup">
+            <div class="slider-label-row">
+              <span class="control-label">Audio Volume</span>
+              <span id="soundVolumeVal" class="slider-val">80%</span>
+            </div>
+            <input type="range" id="soundVolumeSlider" class="range-input" min="0" max="100" step="1" value="80" />
+          </div>
+
+          <!-- Quick Test & Preview Buttons -->
+          <div class="sound-actions-row">
+            <button id="btnPreviewSound" class="btn-sound-action" type="button" title="Play single sound sample">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              Preview Sound (1x)
+            </button>
+            <button id="btnTestSound" class="btn-sound-action" type="button" title="Test 3-2-1-0 sequence">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              Test 3-2-1-0 Sequence
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Video Resolution & Frame Rate Settings -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <span class="panel-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+              6. Video Resolution & Frame Rate
+            </span>
+          </div>
+
+          <!-- Resolution Selector Grid -->
+          <div class="resolution-grid">
+            <button class="btn-res active" data-width="1920" data-height="1080">
+              <span class="title">1920 x 1080</span>
+              <span class="meta">Full HD Landscape (16:9)</span>
+            </button>
+            <button class="btn-res" data-width="1280" data-height="720" type="button">
+              <span class="title">1280 x 720</span>
+              <span class="meta">HD Landscape (16:9)</span>
+            </button>
+            <button class="btn-res" data-width="1080" data-height="1920" type="button">
+              <span class="title">1080 x 1920</span>
+              <span class="meta">Vertical (9:16 Reels/Shorts)</span>
+            </button>
+            <button class="btn-res" data-width="1080" data-height="1080" type="button">
+              <span class="title">1080 x 1080</span>
+              <span class="meta">Square (1:1 Social Post)</span>
+            </button>
+          </div>
+
+          <!-- FPS Dropdown -->
+          <div class="control-row">
+            <label class="control-label" for="fpsSelect">Frame Rate (FPS)</label>
+            <select id="fpsSelect" class="select-input">
+              <option value="30" selected>30 FPS (Standard / Fast Export)</option>
+              <option value="60">60 FPS (Ultra Smooth Motion)</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- App Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <div>
+          <strong>COUNTDOWN STUDIO</strong> — In-Browser HTML5, CSS3 & JavaScript Video Creator
+        </div>
+        <div class="footer-links">
+          <button class="footer-link footer-button" id="footerGuideLink" type="button">සිංහල උපදෙස් (Sinhala Guide)</button>
+          <span class="footer-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Sinhala Guide Modal -->
+    <div id="sinhalaModal" class="modal-overlay">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <span class="modal-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            COUNTDOWN STUDIO - සිංහල උපදෙස් මාලාව (Beginner Guide)
+          </span>
+          <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close Modal">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            ආයුබෝවන්! <strong>COUNTDOWN STUDIO</strong> වෙත සාදරයෙන් පිළිගනිමු. මෙම වෙබ් අඩවිය මඟින් ඔබට කිසිදු AI හෝ Server එකක් අවශ්‍ය නොවී, ඔබගේ පරිගණකයේ හෝ දුරකථනයේ Browser එක හරහාම ඉතාමත් නිවැරදි countdown timer වීඩියෝ නිර්මාණය කරගත හැක.
+          </p>
+
+          <h3>1. Countdown Video එකක් සාදා ගන්නා ආකාරය (8-Step Workflow)</h3>
+          <ol>
+            <li><strong>Starting Time එක තෝරන්න:</strong> MM:SS (උදා: 03:00, 00:30) හෝ HH:MM:SS (උදා: 01:00:00) ලෙස ඔබට අවශ්‍ය කාලය ඇතුළත් කරන්න.</li>
+            <li><strong>Duration Mode එක තෝරන්න:</strong>
+              <ul>
+                <li><strong>Real-Time (1:1):</strong> Countdown කාලය සහ වීඩියෝවේ කාලය එක සමාන වේ (උදා: මිනිත්තු 3ක ටයිමරය මිනිත්තු 3ක වීඩියෝවක් ලෙස සැකසේ).</li>
+                <li><strong>Compressed / Custom:</strong> ඕනෑම දිගු countdown එකක් තත්පර කිහිපයක කෙටි වීඩියෝවක් ලෙස වේගවත්ව අවසන් වන ලෙස සැකසිය හැක (උදා: මිනිත්තු 3ක countdown එක තත්පර 10කින් නිම වේ).</li>
+              </ul>
+            </li>
+            <li><strong>Template එකක් තෝරන්න:</strong> Luxury Gold, Royal Blue, Neon Pink, Digital LED ඇතුළු විවිධ visual styles 10කින් කැමති එකක් click කරන්න.</li>
+            <li><strong>Background Color (Chroma Key Green):</strong> Premiere Pro, CapCut, DaVinci Resolve වල overlay කිරීමට <strong>Chroma Green (#00FF00)</strong> තෝරන්න.</li>
+            <li><strong>Sound Effects & Audio තෝරන්න:</strong> Classic Clock Tick, Digital Beep, Cinematic Pulse ඇතුළු ශබ්ද තෝරාගත හැක. ඔබ තෝරාගන්නා ශබ්දය බාගත කරන වීඩියෝව තුළටද ඇතුළත් වේ!</li>
+            <li><strong>Resolution එක තෝරන්න:</strong> YouTube සඳහා 1920x1080 (Landscape) හෝ TikTok/Reels/Shorts සඳහා 1080x1920 (Vertical) තෝරන්න.</li>
+            <li><strong>"GENERATE COUNTDOWN VIDEO" Button එක Click කරන්න:</strong> වීඩියෝව සහ ශබ්දය render වීම ආරම්භ වන අතර 0% සිට 100% දක්වා progress bar එක හරහා දැකගත හැක.</li>
+            <li><strong>DOWNLOAD VIDEO:</strong> වීඩියෝව සෑදුණු පසු Video Player එකෙන් නරඹා <strong>DOWNLOAD VIDEO</strong> click කර ඔබගේ පරිගණකයට හෝ දුරකථනයට බාගත කරගන්න. එකම වීඩියෝව නැවත render නොකර ඕනෑම වාර ගණනක් Download කරගත හැක!</li>
+          </ol>
+
+          <h3>2. Green Screen (ක්‍රෝමා කී) වීඩියෝ සංස්කරණය</h3>
+          <p>
+            මෙම වෙබ් අඩවියේ විශේෂත්වය වන්නේ Template වල පාට කුමක් වුවත් Background එක සම්පූර්ණයෙන්ම ස්වාධීනව තබාගත හැකි වීමයි. ඔබ Luxury Gold තෝරා Chroma Green ලබා දුනහොත්, රන්වන් අංක සහ frame එක පිරිසිදු කොළ පැහැති පසුබිමක Render වේ. CapCut හෝ Premiere Pro වල <em>Ultra Key / Chroma Key</em> මඟින් පහසුවෙන්ම කොළ පැහැය ඉවත් කළ හැක.
+          </p>
+
+          <h3>3. මෙම වෙබ් අඩවියේ Source Code එක Download කර ඔබගේ පරිගණකයේ Run කිරීම</h3>
+          <p>
+            ඉහළ Navigation Bar එකේ ඇති <strong>"Download Source Code (.ZIP)"</strong> බොත්තම ක්ලික් කිරීමෙන් මෙම සම්පූර්ණ වෙබ් අඩවියේ HTML, CSS, JS සහ Documentation අඩංගු ZIP ගොනුව ක්ෂණිකව බාගත වේ.
+          </p>
+          <div class="code-box-pre">
+countdown-studio/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── app.js
+└── README_SI.txt
+          </div>
+          <p>
+            ZIP එක Extract කර <code>index.html</code> Double Click කිරීමෙන් කිසිදු Server එකක් නොමැතිව ඕනෑම Browser එකක (Google Chrome, Microsoft Edge, Brave, Firefox) මෙය run කළ හැක.
+          </p>
+
+          <h3>4. අන්තර්ජාලයට නොමිලේ Upload කරන ආකාරය (Hosting Guide)</h3>
+          <ul>
+            <li><strong>Netlify Drop:</strong> <a href="https://app.netlify.com/drop" target="_blank" style="color: var(--accent-gold);">netlify.com/drop</a> වෙත ගොස් ඔබගේ <code>countdown-studio</code> folder එක drag &amp; drop කරන්න. තත්පර 10කින් නොමිලේ Live URL එකක් ලැබේ.</li>
+            <li><strong>GitHub Pages:</strong> GitHub repository එකකට ගොස් Settings &gt; Pages &gt; Deploy from Branch (main) තෝරා Save කරන්න.</li>
+            <li><strong>cPanel / Web Hosting:</strong> ඔබගේ Hosting වල File Manager හි <code>public_html</code> ෆෝල්ඩරයට මෙම ගොනු Upload කරන්න.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Master Application Script -->
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
